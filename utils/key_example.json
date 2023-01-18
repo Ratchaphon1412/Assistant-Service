@@ -1,0 +1,11 @@
+{
+    "APIKEY": {
+        "witAPI": "Your Wit API Key",
+        "weatherAPI": "Your Weather API Key",
+        "rapidAPI": "Your rapid API",
+        "play.htAPI": {
+            "Authorization": "Your Play.ht Authorization ",
+            "X-User-ID": "Your Play.ht User ID"
+        }
+    }
+}

@@ -1,0 +1,13 @@
+{
+    "APIKEY": {
+        "witAPI": "Bearer HD7463MS2IMBGP4AW4AFFGTZGVIUF2GI",
+        "weatherAPI": "f2b10a33ba4535b73fc9845ab9ffef10",
+        "rapidAPI": "091aed48d7mshac28a14304d11cap1182e7jsn2d5daa5546cc",
+        "googleAPI": "AIzaSyDyS4AG25zm3dape-5shH65PqdDQjkV2Sw",
+        "googleMapAPI": "AIzaSyBmhSoUadgZp9FKCYFhuxUaRjKTYTZ71T8",
+        "play.htAPI": {
+            "Authorization": "d3157040971248cebcdc336b2e46355d",
+            "X-User-ID": "ykh4t5m4GKXmS5uMnN8heUyoltv1"
+        }
+    }
+}
