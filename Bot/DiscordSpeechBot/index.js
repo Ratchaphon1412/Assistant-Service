@@ -1,3 +1,6 @@
+// import instance from './api_instance.js';
+
+
 //////////////////////////////////////////
 //////////////// LOGGING /////////////////
 //////////////////////////////////////////
@@ -19,6 +22,7 @@ const util = require('util');
 const path = require('path');
 const request = require('request');
 const { Readable } = require('stream');
+const axios = require('axios');
 
 //////////////////////////////////////////
 ///////////////// VARIA //////////////////
@@ -386,11 +390,31 @@ function speak_impl(voice_Connection, mapKey) {
     })
 }
 
-function process_commands_query(query, mapKey, userid) {
+
+
+
+async function process_commands_query(query, mapKey, userid) {
     if (!query || !query.length)
         return;
 
     let out = null;
+    // let category = null;
+    // send request to server
+    // axios({
+    //     method: 'post',
+    //     url: 'http://localhost:8000/api/ai/',
+    //     data: {
+    //         'query': query,
+    //     }
+    // }).then(function (response) {
+
+    //     if (response.data['status'] == 'success') {
+    //         category = response.data['category']
+    //         console.error(category);
+    //     }
+
+
+    // });
 
 
 
@@ -446,6 +470,9 @@ function process_commands_query(query, mapKey, userid) {
                 }
                 break;
             case 'play':
+            case 'playing':
+            case 'praying':
+            case 'pray':
             case 'player':
                 switch (args) {
                     case 'random':
@@ -474,7 +501,7 @@ function process_commands_query(query, mapKey, userid) {
         // out = '<@' + userid + '>, ' + out;
         console.log('text_Channel out: ' + out)
         const val = guildMap.get(mapKey);
-        val.text_Channel.send(out)
+        val.text_Channel.send(out) // send command to text channel
     }
 }
 
