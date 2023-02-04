@@ -13,7 +13,12 @@ from .serializers import *
 
 
 class AssistantAPI(APIView):
-    pass
+    def post(self, request, format=None):
+
+        if request.data['query']:
+            return Response({'response': 'Hello, how are you?'})
+
+        return Response({'status': 'failer', 'category': 'Music'})
 
 
 class UserAPI(APIView):
