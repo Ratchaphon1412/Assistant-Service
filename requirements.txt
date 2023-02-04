@@ -1,3 +1,4 @@
 Django
 djangorestframework
 pip-autoremove
+requests
