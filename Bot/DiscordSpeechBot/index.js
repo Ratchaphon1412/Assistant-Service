@@ -326,7 +326,7 @@ async function connect(msg, mapKey) {
         let text_Channel = await discordClient.channels.fetch(msg.channel.id);
         if (!text_Channel) return msg.reply("Error: The text channel does not exist!");
         let voice_Connection = await voice_Channel.join();
-        voice_Connection.play('sound.mp3', { volume: 0.5 });
+        voice_Connection.play('./Sound/help.mp3', { volume: 1 });
         guildMap.set(mapKey, {
             'text_Channel': text_Channel,
             'voice_Channel': voice_Channel,
@@ -392,34 +392,12 @@ function speak_impl(voice_Connection, mapKey) {
 
 
 
-
+// main Program
 async function process_commands_query(query, mapKey, userid) {
     if (!query || !query.length)
         return;
 
     let out = null;
-    // let category = null;
-    // send request to server
-    // axios({
-    //     method: 'post',
-    //     url: 'http://localhost:8000/api/ai/',
-    //     data: {
-    //         'query': query,
-    //     }
-    // }).then(function (response) {
-
-    //     if (response.data['status'] == 'success') {
-    //         category = response.data['category']
-    //         console.error(category);
-    //     }
-
-
-    // });
-
-
-
-
-
 
 
     // voice commands Music
@@ -964,7 +942,7 @@ async function transcribe_gspeech(buffer) {
         const config = {
             encoding: 'LINEAR16',
             sampleRateHertz: 48000,
-            languageCode: 'en-US',  // https://cloud.google.com/speech-to-text/docs/languages
+            languageCode: 'th-TH',  // https://cloud.google.com/speech-to-text/docs/languages
         };
         const request = {
             audio: audio,
