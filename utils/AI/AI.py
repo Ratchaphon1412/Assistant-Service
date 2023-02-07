@@ -14,7 +14,7 @@ class AI:
         self.wit = Wit(witAPI)
 
     def mainAI(self):
-        while(True):
+        while (True):
             try:
                 audio, recognition = self.speechTT.startListen()
                 text = self.speechTT.changevoiceTT(audio, recognition)
@@ -22,22 +22,22 @@ class AI:
                 checkConvertPlayht = None
                 if text != None:
                     intent, confidence, entities = self.wit.getIntent(text)
-                    if(intent != None):
-                        if(confidence >= 0.85):
-                            if(intent == "greeting"):
+                    if (intent != None):
+                        if (confidence >= 0.85):
+                            if (intent == "greeting"):
                                 asyncio.run(
                                     self.textTTS.changetextTV("สวัสดีครับ"))
-                            if(intent == "weather"):
+                            if (intent == "weather"):
                                 text = self.knowLedge.weather(entities)
                                 checkConvertPlayht = asyncio.run(
                                     self.textTTS.main(text))
                                 self.checkConvertPlayht(checkConvertPlayht)
-                            if(intent == "search"):
+                            if (intent == "search"):
                                 text = self.knowLedge.findsomething(entities)
                                 checkConvertPlayht = asyncio.run(
                                     self.textTTS.main(text))
                                 self.checkConvertPlayht(checkConvertPlayht)
-                            if(intent == "restaurantNearMe"):
+                            if (intent == "restaurantNearMe"):
                                 text = self.knowLedge.findRestaurantNearMe()
                                 checkConvertPlayht = asyncio.run(
                                     self.textTTS.main(text))

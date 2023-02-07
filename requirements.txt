@@ -2,3 +2,7 @@ Django
 djangorestframework
 pip-autoremove
 requests
+geopy
+geocoder
+pyobjc-framework-CoreLocation
+PyCocoa

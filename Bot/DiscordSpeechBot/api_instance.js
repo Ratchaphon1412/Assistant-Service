@@ -1,4 +1,6 @@
-import axios from "axios";
+// import axios from "axios";
+const axios = require("axios");
+
 
 const instance = axios.create({
     baseURL: "https://localhost:8000/api/",
@@ -9,4 +11,7 @@ const instance = axios.create({
     },
 });
 
-export default instance;
+
+module.exports = instance;
+
+// export { instance };
