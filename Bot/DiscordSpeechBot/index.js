@@ -19,10 +19,12 @@ console.log = function () {
 
 const fs = require('fs');
 const util = require('util');
-const path = require('path');
-const request = require('request');
+// const path = require('path');
+// const request = require('request');
 const { Readable } = require('stream');
-const axios = require('axios');
+// const axios = require('axios');
+const intance = require('./api_instance.js');
+const formdata = require('form-data');
 
 //////////////////////////////////////////
 ///////////////// VARIA //////////////////
@@ -394,11 +396,27 @@ function speak_impl(voice_Connection, mapKey) {
 
 // main Program
 async function process_commands_query(query, mapKey, userid) {
+
+    const data = new formdata();
     if (!query || !query.length)
         return;
 
     let out = null;
 
+    data.append('query', query);
+    analysis = null;
+    try {
+        await intance({
+            url: 'ai/',
+            method: 'post',
+            body: data,
+        }).then((response) => {
+            console.log(response.data);
+            analysis = response.data;
+        });
+    } catch (e) {
+        console.error(e);
+    }
 
     // voice commands Music
     const regex = /^music ([a-zA-Z]+)(.+?)?$/;
