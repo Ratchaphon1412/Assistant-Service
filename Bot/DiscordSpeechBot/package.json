@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "A speech-to-text bot for discord with music commands and more written in NodeJS.",
   "main": "index.js",
+  "type": "module",
   "dependencies": {
     "@discordjs/opus": "^0.9.0",
     "@google-cloud/speech": "^4.2.0",
@@ -10,6 +11,7 @@
     "axios": "^1.2.3",
     "discord.js": "^12.5.1",
     "ffmpeg-static": "^4.4.1",
+    "file-saver": "^2.0.5",
     "get-youtube-id": "^1.0.1",
     "node-spotify-api": "^1.1.1",
     "node-witai-speech": "^1.0.2",
@@ -37,6 +39,5 @@
     "url": "https://github.com/healzer/DiscordSpeechBot/issues"
   },
   "homepage": "https://github.com/healzer/DiscordSpeechBot#readme",
-  "devDependencies": {},
   "keywords": []
 }

@@ -4,27 +4,35 @@
 //////////////////////////////////////////
 //////////////// LOGGING /////////////////
 //////////////////////////////////////////
-function getCurrentDateString() {
-    return (new Date()).toISOString() + ' ::';
-};
-__originalLog = console.log;
-console.log = function () {
-    var args = [].slice.call(arguments);
-    __originalLog.apply(console.log, [getCurrentDateString()].concat(args));
-};
+// function getCurrentDateString() {
+//     return (new Date()).toISOString() + ' ::';
+// };
+// __originalLog = console.log;
+// console.log = function () {
+//     var args = [].slice.call(arguments);
+//     __originalLog.apply(console.log, [getCurrentDateString()].concat(args));
+// };
 //////////////////////////////////////////
 //////////////////////////////////////////
 
 
-
-const fs = require('fs');
-const util = require('util');
+import fs from 'fs';
+// const fs = require('fs');
+import util from 'util';
+// const util = require('util');
 // const path = require('path');
 // const request = require('request');
-const { Readable } = require('stream');
+import { Readable } from 'stream';
+// const { Readable } = require('stream');
 // const axios = require('axios');
-const intance = require('./api_instance.js');
-const formdata = require('form-data');
+// import instance from './api_instance.js';
+import { ai } from './api_instance.js';
+// const instance = require('./api_instance.js');
+import FormData from 'form-data';
+import { createRequire } from "module";
+import { delay } from 'underscore';
+const require = createRequire(import.meta.url);
+// const FormData = require('form-data');
 
 //////////////////////////////////////////
 ///////////////// VARIA //////////////////
@@ -382,7 +390,7 @@ function speak_impl(voice_Connection, mapKey) {
                 let new_buffer = await convert_audio(buffer)
                 let out = await transcribe(new_buffer);
                 if (out != null)
-                    process_commands_query(out, mapKey, user.id);
+                    process_commands_query(out, mapKey, user.id, voice_Connection);
             } catch (e) {
                 console.log('tmpraw rename: ' + e)
             }
@@ -395,37 +403,56 @@ function speak_impl(voice_Connection, mapKey) {
 
 
 // main Program
-async function process_commands_query(query, mapKey, userid) {
+async function process_commands_query(query, mapKey, userid, voice_Connection) {
 
-    const data = new formdata();
+
     if (!query || !query.length)
         return;
 
     let out = null;
 
-    data.append('query', query);
-    analysis = null;
-    try {
-        await intance({
-            url: 'ai/',
-            method: 'post',
-            body: data,
-        }).then((response) => {
-            console.log(response.data);
-            analysis = response.data;
-        });
-    } catch (e) {
-        console.error(e);
-    }
+
+
+    let response = await ai.getAiResponse(query);
+
+    // console.log(response.intent)
+    // console.log(response.entities["data:data"])
 
     // voice commands Music
     const regex = /^music ([a-zA-Z]+)(.+?)?$/;
     const m = query.toLowerCase().match(regex);
-    if (m && m.length) {
-        const cmd = (m[1] || '').trim();
-        const args = (m[2] || '').trim();
+    if (response.intent && response.intent.length) {
+        // const cmd = (m[1] || '').trim();
+        // const args = (m[2] || '').trim();
+        const cmd = response.intent;
+        let args = null;
+        // if (response.entities.hasOwnProperty('data:data') && response.hasOwnProperty('entities')) {
+
+        //     args = response.entities["data:data"][0].value;
+        // }
+        if (response.entities != null) {
+            if (response.entities.hasOwnProperty('data:data') && response.hasOwnProperty('entities')) {
+
+                args = response.entities["data:data"][0].value;
+            }
+        }
+        // const regex = /^music ([a-zA-Z]+)(.+?)?$/;
+        // const m = query.toLowerCase().match(regex);
 
         switch (cmd) {
+            case 'search':
+                if (args != null && args.length > 0) {
+                    let responseSearch = await ai.getKnowledge(args);
+                    if (responseSearch.answer != null) {
+                        console.log(responseSearch.answer);
+                        let audioURL = await ai.getAudio(responseSearch.answer);
+                        if (audioURL.url != null) {
+                            await playVoice(voice_Connection, audioURL.url);
+                        }
+                    }
+                }
+
+                break;
             case 'help':
                 out = _CMD_HELP;
                 break;
@@ -465,11 +492,11 @@ async function process_commands_query(query, mapKey, userid) {
                         break;
                 }
                 break;
-            case 'play':
-            case 'playing':
-            case 'praying':
-            case 'pray':
-            case 'player':
+            case 'music':
+                // if (voice_Connection) {
+                //     voice_Connection.play('./Sound/findmusic.mp3', { volume: 1 });
+                //     await sleep(3000);
+                // }
                 switch (args) {
                     case 'random':
                         out = _CMD_RANDOM;
@@ -494,6 +521,8 @@ async function process_commands_query(query, mapKey, userid) {
             out = '<bad command: ' + query + '>';
     }
     if (out != null && out.length) {
+
+
         // out = '<@' + userid + '>, ' + out;
         console.log('text_Channel out: ' + out)
         const val = guildMap.get(mapKey);
@@ -501,7 +530,25 @@ async function process_commands_query(query, mapKey, userid) {
     }
 }
 
+async function playVoice(voice_Connection, audioURL) {
+    if (voice_Connection) {
+
+
+
+        const dispatcher = voice_Connection.play(audioURL, { volume: 1 });
+        dispatcher.on('finish', () => {
+            console.log('Finished playing!');
+        });
+    }
+
+
+
+}
+
+
+
 async function music_message(message, mapKey) {
+
     let replymsgs = [];
     const messes = message.content.split('\n');
     for (let mess of messes) {
