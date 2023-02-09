@@ -58,6 +58,14 @@ export const ai = {
             console.error(e);
         }
 
+    },
+    async downloadAudio(url) {
+        let response = await instance.get(url, {
+            url: url,
+            responseType: 'stream'
+        });
+
+        return response.data;
     }
 
 

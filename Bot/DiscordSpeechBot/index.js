@@ -31,6 +31,7 @@ import { ai } from './api_instance.js';
 import FormData from 'form-data';
 import { createRequire } from "module";
 import { delay } from 'underscore';
+import FileSaver from 'file-saver';
 const require = createRequire(import.meta.url);
 // const FormData = require('form-data');
 
@@ -446,6 +447,7 @@ async function process_commands_query(query, mapKey, userid, voice_Connection) {
                     if (responseSearch.answer != null) {
                         console.log(responseSearch.answer);
                         let audioURL = await ai.getAudio(responseSearch.answer);
+                        console.log(audioURL);
                         if (audioURL.url != null) {
                             await playVoice(voice_Connection, audioURL.url);
                         }
@@ -517,8 +519,8 @@ async function process_commands_query(query, mapKey, userid, voice_Connection) {
                 }
                 break;
         }
-        if (out == null)
-            out = '<bad command: ' + query + '>';
+        // if (out == null)
+        //     out = '<bad command: ' + query + '>';
     }
     if (out != null && out.length) {
 
@@ -532,17 +534,17 @@ async function process_commands_query(query, mapKey, userid, voice_Connection) {
 
 async function playVoice(voice_Connection, audioURL) {
     if (voice_Connection) {
+        let audioBinary = await ai.downloadAudio(audioURL);
+        await audioBinary.pipe(fs.createWriteStream('./Sound/audio.mp3'));
+        await voice_Connection.play("./Sound/findata.mp3", { volume: 1 });
+        await voice_Connection.play("./Sound/audio.mp3", { volume: 1 });
+        // fs.unlink('./Sound/audio.mp3');
 
-
-
-        const dispatcher = voice_Connection.play(audioURL, { volume: 1 });
-        dispatcher.on('finish', () => {
-            console.log('Finished playing!');
-        });
+        // dispatcher.on('finish', () => {
+        //     console.log('Finished playing!');
+        //     // fs.unlinkSync('./Sound/audio.mp3');
+        // });
     }
-
-
-
 }
 
 

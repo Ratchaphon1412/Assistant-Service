@@ -4,4 +4,5 @@ from .views import *
 urlpatterns = [
     path('ai/', AssistantAPI.as_view()),
     path('knowledge/', KnowledgeAPI.as_view()),
+    path('texttospeech/', TextToSpeech.as_view()),
 ]
