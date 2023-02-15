@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
-
+from rest_framework.permissions import IsAuthenticated
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -25,6 +25,8 @@ textToSpeechURL = textTTS({
 
 
 class AssistantAPI(APIView):
+    permission_classes = [IsAuthenticated]
+
     def post(self, request, format=None):
         if request.body.decode('utf-8'):
             requestJson = json.loads(request.body.decode('utf-8'))
@@ -38,6 +40,8 @@ class AssistantAPI(APIView):
 
 
 class KnowledgeAPI(APIView):
+    permission_classes = [IsAuthenticated]
+
     def post(self, request):
         if request.body.decode('utf-8'):
             requestJson = json.loads(request.body.decode('utf-8'))
@@ -48,6 +52,8 @@ class KnowledgeAPI(APIView):
 
 
 class TextToSpeech(APIView):
+    permission_classes = [IsAuthenticated]
+
     def post(self, request):
         if request.body.decode('utf-8'):
             requestJson = json.loads(request.body.decode('utf-8'))
@@ -59,6 +65,8 @@ class TextToSpeech(APIView):
 
 
 class WeatherAPI(APIView):
+    permission_classes = [IsAuthenticated]
+
     def post(self, request):
         if request.body.decode('utf-8'):
             requestJson = json.loads(request.body.decode('utf-8'))
@@ -67,11 +75,11 @@ class WeatherAPI(APIView):
             return Response({'weather': text})
 
 
-class UserAPI(APIView):
-    authentication_classes = [authentication.TokenAuthentication]
-    permission_classes = [permissions.IsAdminUser]
+# class UserAPI(APIView):
+#     authentication_classes = [authentication.TokenAuthentication]
+#     permission_classes = [permissions.IsAdminUser]
 
-    def get(self, request, format=None):
+#     def get(self, request, format=None):
 
-        usernames = [user.username for user in User.objects.all()]
-        return Response(usernames)
+#         usernames = [user.username for user in User.objects.all()]
+#         return Response(usernames)
