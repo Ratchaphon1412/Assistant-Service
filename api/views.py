@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from decouple import config
 from rest_framework import authentication, permissions
 from utils.AI.Wit import Wit
 from utils.Knowledge.main import Knowlegde
@@ -35,7 +36,7 @@ class AssistantAPI(APIView):
         if request.body.decode('utf-8'):
             requestJson = json.loads(request.body.decode('utf-8'))
 
-            wit = Wit('Bearer HD7463MS2IMBGP4AW4AFFGTZGVIUF2GI')
+            wit = Wit(config('witAPI'))
             intent, confidence, entities = wit.getIntent(
                 requestJson.get('query'))
             return Response({'intent': intent, 'confidence': confidence, 'entities': entities})
@@ -49,8 +50,8 @@ class KnowledgeAPI(APIView):
     def post(self, request):
 
         if request.body.decode('utf-8'):
-            knowledge = Knowlegde('f2b10a33ba4535b73fc9845ab9ffef10', '091aed48d7mshac28a14304d11cap1182e7jsn2d5daa5546cc',
-                                  'AIzaSyDyS4AG25zm3dape-5shH65PqdDQjkV2Sw', 'AIzaSyBmhSoUadgZp9FKCYFhuxUaRjKTYTZ71T8')
+            knowledge = Knowlegde(config('weatherAPI'), config('rapidAPI'),
+                                  config('googleAPI'), config('googleMapAPI'))
             requestJson = json.loads(request.body.decode('utf-8'))
             # print(type(request.data['query']))
             text = knowledge.findsomething(requestJson.get('question'))
@@ -66,8 +67,8 @@ class TextToSpeech(APIView):
             requestJson = json.loads(request.body.decode('utf-8'))
             # print(requestJson.get('text'))
             textToSpeechURL = textTTS({
-                "Authorization": "d3157040971248cebcdc336b2e46355d",
-                "X-User-ID": "ykh4t5m4GKXmS5uMnN8heUyoltv1"
+                "Authorization": config('playhtAPIAuthorization'),
+                "X-User-ID": config('playhtAPIX-User-ID')
             })
             print("test1")
             voiceURL = textToSpeechURL.changetextTV(requestJson['text'])
@@ -81,8 +82,8 @@ class WeatherAPI(APIView):
     def post(self, request):
         if request.body.decode('utf-8'):
             requestJson = json.loads(request.body.decode('utf-8'))
-            knowledge = Knowlegde('f2b10a33ba4535b73fc9845ab9ffef10', '091aed48d7mshac28a14304d11cap1182e7jsn2d5daa5546cc',
-                                  'AIzaSyDyS4AG25zm3dape-5shH65PqdDQjkV2Sw', 'AIzaSyBmhSoUadgZp9FKCYFhuxUaRjKTYTZ71T8')
+            knowledge = Knowlegde(config('weatherAPI'), config('rapidAPI'),
+                                  config('googleAPI'), config('googleMapAPI'))
             text = knowledge.weather(requestJson.get('city'))
 
             return Response({'weather': text})

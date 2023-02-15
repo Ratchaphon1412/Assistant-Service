@@ -6,3 +6,4 @@ geopy
 geocoder
 pyobjc-framework-CoreLocation
 PyCocoa
+python-decouple
