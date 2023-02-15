@@ -77,6 +77,17 @@ class TextToSpeech(APIView):
         return Response({'url': None})
 
 
+class WeatherAPI(APIView):
+    def post(self, request):
+        if request.body.decode('utf-8'):
+            requestJson = json.loads(request.body.decode('utf-8'))
+            knowledge = Knowlegde('f2b10a33ba4535b73fc9845ab9ffef10', '091aed48d7mshac28a14304d11cap1182e7jsn2d5daa5546cc',
+                                  'AIzaSyDyS4AG25zm3dape-5shH65PqdDQjkV2Sw', 'AIzaSyBmhSoUadgZp9FKCYFhuxUaRjKTYTZ71T8')
+            text = knowledge.weather(requestJson.get('city'))
+
+            return Response({'weather': text})
+
+
 class UserAPI(APIView):
     authentication_classes = [authentication.TokenAuthentication]
     permission_classes = [permissions.IsAdminUser]
