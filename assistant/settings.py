@@ -42,6 +42,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',  # rest_framework
     'api',  # api app
+    'core',  # core app for user
+    'djoser',  # djoser for authentication and authorization
+
 
 ]
 
@@ -76,9 +79,12 @@ TEMPLATES = [
 WSGI_APPLICATION = 'assistant.wsgi.application'
 
 REST_FRAMEWORK = {
-    'DEFAULT_FILTER_BACKENDS': [
-        'django_filters.rest_framework.DjangoFilterBackend'
-    ],
+    # 'DEFAULT_FILTER_BACKENDS': [
+    #     'django_filters.rest_framework.DjangoFilterBackend'
+    # ],
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
 
 }
 
@@ -133,3 +139,6 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# core app user model for authentication and authorization
+AUTH_USER_MODEL = 'core.User'

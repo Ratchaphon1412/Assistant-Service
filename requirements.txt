@@ -5,3 +5,6 @@ requests
 geopy
 geocoder
 python-decouple
+djoser
+djangorestframework_simplejwt
+social-auth-app-django

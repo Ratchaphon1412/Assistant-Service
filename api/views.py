@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
-from rest_framework.permissions import IsAuthenticated
+# from rest_framework.permissions import IsAuthenticated
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -25,7 +25,7 @@ textToSpeechURL = textTTS({
 
 
 class AssistantAPI(APIView):
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
 
     def post(self, request, format=None):
         if request.body.decode('utf-8'):
@@ -40,7 +40,7 @@ class AssistantAPI(APIView):
 
 
 class KnowledgeAPI(APIView):
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
 
     def post(self, request):
         if request.body.decode('utf-8'):
@@ -52,7 +52,7 @@ class KnowledgeAPI(APIView):
 
 
 class TextToSpeech(APIView):
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
 
     def post(self, request):
         if request.body.decode('utf-8'):
@@ -65,7 +65,7 @@ class TextToSpeech(APIView):
 
 
 class WeatherAPI(APIView):
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
 
     def post(self, request):
         if request.body.decode('utf-8'):
