@@ -1,3 +1,6 @@
 tmp/
 .env
 .DS_Store
+client_secret_362223785838-v8d0dm5ukvrbmqkqaocdufl09llmjumo.apps.googleusercontent.com.json
+__pycache__/
+*.pyc

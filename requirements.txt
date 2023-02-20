@@ -5,4 +5,3 @@ requests
 geopy
 geocoder
 python-decouple
-djangorestframework-simplejwt
