@@ -73,13 +73,3 @@ class WeatherAPI(APIView):
             text = knowledge.weather(requestJson.get('city'))
 
             return Response({'weather': text})
-
-
-# class UserAPI(APIView):
-#     authentication_classes = [authentication.TokenAuthentication]
-#     permission_classes = [permissions.IsAdminUser]
-
-#     def get(self, request, format=None):
-
-#         usernames = [user.username for user in User.objects.all()]
-#         return Response(usernames)

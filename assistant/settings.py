@@ -142,3 +142,17 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # core app user model for authentication and authorization
 AUTH_USER_MODEL = 'core.User'
+
+# simple jwt settings
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+    'AUTH_HEADER_TYPES': ('JWT',),
+}
+
+# djoser settings
+DJOSER = {
+    'SERIALIZERS': {
+        'user_create': 'core.serializer.AssistantsUserCreateSerializer',
+    }
+}
