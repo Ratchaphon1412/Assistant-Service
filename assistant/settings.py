@@ -29,7 +29,7 @@ SECRET_KEY = config('SECRET_KEY_DJANGO')
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
+CORS_ALLOW_ALL_ORIGINS = True  # corsheaders for cross origin resource sharing
 
 # Application definition
 
@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'api',  # api app
     'core',  # core app for user
     'djoser',  # djoser for authentication and authorization
+    'corsheaders',  # corsheaders for cross origin resource sharing
+
 
 
 ]
@@ -56,6 +58,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # corsheaders for cross origin resource sharing
+    'corsheaders.middleware.CorsMiddleware',
+    # corsheaders for cross origin resource sharing
+    'django.middleware.common.CommonMiddleware',
 ]
 
 ROOT_URLCONF = 'assistant.urls'
@@ -77,6 +83,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'assistant.wsgi.application'
+
 
 REST_FRAMEWORK = {
     # 'DEFAULT_FILTER_BACKENDS': [
@@ -145,7 +152,7 @@ AUTH_USER_MODEL = 'core.User'
 
 # simple jwt settings
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=1),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
     'AUTH_HEADER_TYPES': ('JWT',),
 }
